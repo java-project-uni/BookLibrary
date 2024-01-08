@@ -23,7 +23,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    what is this???
+//  "International Standard Book Number"
     @Column(name = "isbn", length = 50, nullable = false, unique = true)
     private String isbn;
 
