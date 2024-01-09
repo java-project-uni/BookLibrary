@@ -1,18 +1,20 @@
 package com.book.library.BookLibrary;
 
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
 
-@Configuration
-@EnableWebMvc
+@OpenAPIDefinition(
+        info = @Info(
+                title = "BookLibraryAPI",
+                version = "v1"
+        ),
+        servers = {
+                @Server(
+                        description = "Dev",
+                        url = "http://localhost:9080"
+                )
+        }
+)
 public class SwaggerConfig {
-    @Bean
-    public GroupedOpenApi api() {
-        return GroupedOpenApi.builder()
-                .group("public-apis")
-                .pathsToMatch("/**")
-                .build();
-    }
 }
