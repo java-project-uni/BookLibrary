@@ -2,30 +2,43 @@ package com.book.library.BookLibrary.controllers;
 
 import com.book.library.BookLibrary.entities.Book;
 import com.book.library.BookLibrary.services.BookService;
+import com.book.library.BookLibrary.DTOs.BookDTO;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
+    final BookService bookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return new ResponseEntity<>(BookService.getAllBooks(), HttpStatus.OK);
+    public ResponseEntity<List<BookDTO>> getAllBooks() {
+        List<BookDTO> books = bookService.getAllBooks();
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("getBook/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        return BookService.getBookById().map(book -> new ResponseEntity<>(book, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Optional<BookDTO>> getBookById(@PathVariable Long id) {
+        Optional<BookDTO> book = bookService.getBookById(id);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-    @PostMapping("/addBook")
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        BookService.createBook(book);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/createBook")
+    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
+        BookDTO createdBook = bookService.createBook(bookDTO);
+        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @PutMapping("updateBook/{id}")
