@@ -29,21 +29,21 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-    public Set<AuthorDTO> mapAuthors(Set<Author> authors) {
+    public List<AuthorDTO> mapAuthors(List<Author> authors) {
         return authors.stream()
                 .map(author -> modelMapper.map(author, AuthorDTO.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public Set<CategoryDTO> mapCategories(Set<Category> categories) {
+    public List<CategoryDTO> mapCategories(List<Category> categories) {
         return categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public Set<PublisherDTO> mapPublishers(Set<Publisher> publishers) {
+    public List<PublisherDTO> mapPublishers(List<Publisher> publishers) {
         return publishers.stream()
                 .map(publisher -> modelMapper.map(publisher, PublisherDTO.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }
