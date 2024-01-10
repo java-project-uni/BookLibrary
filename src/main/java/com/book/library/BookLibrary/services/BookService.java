@@ -10,9 +10,9 @@ public interface BookService {
 
     List<BookDTO> getAllBooks();
 
-    public Optional<BookDTO> getBookById(Long id);
+    Optional<BookDTO> getBookById(Long id);
 
-    public BookDTO createBook(BookDTO book);
+    BookDTO createBook(BookDTO book);
 
     static Book updateBook(Long id, Book book) {
         return null;

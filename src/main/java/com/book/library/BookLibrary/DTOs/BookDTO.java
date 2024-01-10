@@ -5,21 +5,21 @@ public class BookDTO {
     private String name;
     private String serialName;
     private String description;
-    private AuthorDTO author;
-    private CategoryDTO category;
-    private PublisherDTO publisher;
+    private String authorName;
+    private String categoryName;
+    private String publisherName;
 
     public BookDTO() {
     }
 
-    public BookDTO(String isbn, String name, String serialName, String description, AuthorDTO author, CategoryDTO category, PublisherDTO publisher){
+    public BookDTO(String isbn, String name, String serialName, String description, String authorName, String categoryName, String publisherName){
         this.isbn = isbn;
         this.name = name;
         this.serialName = serialName;
         this.description = description;
-        this.author = author;
-        this.category = category;
-        this.publisher = publisher;
+        this.authorName = authorName;
+        this.categoryName = categoryName;
+        this.publisherName = publisherName;
     }
 
     public String getIsbn() { return isbn; }
@@ -38,15 +38,15 @@ public class BookDTO {
 
     public void setDescription(String description) { this.description = description; }
 
-    public AuthorDTO getAuthor() { return author; }
+    public String getAuthor() { return authorName; }
 
-    public void setAuthor(AuthorDTO author) { this.author = author; }
+    public void setAuthor(String author) { this.authorName = author; }
 
-    public CategoryDTO getCategory() { return category; }
+    public String getCategory() { return categoryName; }
 
-    public void setCategory(CategoryDTO category) { this.category = category; }
+    public void setCategory(String category) { this.categoryName = category; }
 
-    public PublisherDTO getPublisher() { return publisher; }
+    public String getPublisher() { return publisherName; }
 
-    public void setPublisher(PublisherDTO publisher) { this.publisher = publisher; }
+    public void setPublisher(String publisher) { this.publisherName = publisher; }
 }
