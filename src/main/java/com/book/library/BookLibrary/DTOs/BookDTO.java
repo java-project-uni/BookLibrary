@@ -1,25 +1,43 @@
 package com.book.library.BookLibrary.DTOs;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.Set;
+
 public class BookDTO {
+    @NotBlank
     private String isbn;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String serialName;
+
+    @NotBlank
     private String description;
-    private String authorName;
-    private String categoryName;
-    private String publisherName;
+
+    @NotBlank
+    private String author;
+
+    @NotEmpty
+    private Set<String> categories;
+
+    @NotEmpty
+    private Set<String> publishers;
 
     public BookDTO() {
     }
 
-    public BookDTO(String isbn, String name, String serialName, String description, String authorName, String categoryName, String publisherName){
+    public BookDTO(String isbn, String name, String serialName, String description, String authorName, Set<String> categoryName, Set<String> publisherName){
         this.isbn = isbn;
         this.name = name;
         this.serialName = serialName;
         this.description = description;
-        this.authorName = authorName;
-        this.categoryName = categoryName;
-        this.publisherName = publisherName;
+        this.author = authorName;
+        this.categories = categoryName;
+        this.publishers = publisherName;
     }
 
     public String getIsbn() { return isbn; }
@@ -38,15 +56,15 @@ public class BookDTO {
 
     public void setDescription(String description) { this.description = description; }
 
-    public String getAuthor() { return authorName; }
+    public String getAuthor() { return author; }
 
-    public void setAuthor(String author) { this.authorName = author; }
+    public void setAuthor(String author) { this.author = author; }
 
-    public String getCategory() { return categoryName; }
+    public Set<String> getCategories() { return categories; }
 
-    public void setCategory(String category) { this.categoryName = category; }
+    public void setCategories(Set<String> category) { this.categories = category; }
 
-    public String getPublisher() { return publisherName; }
+    public Set<String> getPublishers() { return publishers; }
 
-    public void setPublisher(String publisher) { this.publisherName = publisher; }
+    public void setPublishers(Set<String> publisher) { this.publishers = publisher; }
 }

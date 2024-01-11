@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "author")
 public class Author {
 
     @Id
@@ -29,7 +29,7 @@ public class Author {
     private String description;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REMOVE }, mappedBy = "authors")
+            CascadeType.REMOVE }, mappedBy = "author")
     private Set<Book> books = new HashSet<Book>();
 
     public Author(String name, String description) {

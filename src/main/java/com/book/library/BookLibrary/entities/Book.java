@@ -3,17 +3,7 @@ package com.book.library.BookLibrary.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "books")
@@ -36,10 +26,10 @@ public class Book {
     @Column(name = "description", length = 250, nullable = false)
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-    @JoinTable(name = "books_authors", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @JoinTable(name = "books_author", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "author_id") })
-    private Set<Author> authors = new HashSet<Author>();
+    private Author author;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "books_categories", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
@@ -58,13 +48,13 @@ public class Book {
         this.description = description;
     }
 
-    public void addAuthors(Author author) {
-        this.authors.add(author);
+    public void addAuthor(Author author) {
+        this.author = author;
         author.getBooks().add(this);
     }
 
-    public void removeAuthors(Author author) {
-        this.authors.remove(author);
+    public void removeAuthor(Author author) {
+        this.author = author;
         author.getBooks().remove(this);
     }
 
@@ -128,12 +118,12 @@ public class Book {
         this.description = description;
     }
 
-    public Set<Author> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public Set<Category> getCategories() {

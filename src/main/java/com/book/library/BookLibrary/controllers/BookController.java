@@ -5,13 +5,12 @@ import com.book.library.BookLibrary.services.BookService;
 import com.book.library.BookLibrary.DTOs.BookDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/books")
@@ -24,36 +23,44 @@ public class BookController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getAllBooks() {
+    public ResponseEntity getAllBooks() {
         List<BookDTO> books = bookService.getAllBooks();
-        return new ResponseEntity<>(books, HttpStatus.OK);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Any books have been created.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @GetMapping("getBook/{id}")
-    public ResponseEntity<Optional<BookDTO>> getBookById(@PathVariable Long id) {
-        Optional<BookDTO> book = bookService.getBookById(id);
-        return new ResponseEntity<>(book, HttpStatus.OK);
+    @GetMapping("getBook/{isbn}")
+    public ResponseEntity getBookByIsbn(@PathVariable String isbn) {
+        Optional<BookDTO> book = bookService.getBookByIsbn(isbn);
+        if (book.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There  is no book with ISBN: " + isbn);
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(book);
     }
 
     @PostMapping("/createBook")
-    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
+    public ResponseEntity createBook(@RequestBody BookDTO bookDTO) {
         BookDTO createdBook = bookService.createBook(bookDTO);
-        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+        if (createdBook == null) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Some information is missing.");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
     @PutMapping("updateBook/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
-        Book updated = BookService.updateBook(id, updatedBook);
-        if(updated != null){
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity updateBook(@PathVariable Long id, @RequestBody BookDTO updatedBook) {
+        Book updated = bookService.updateBook(id, updatedBook);
+        if (updated == null) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Some information is missing.");
         }
+        return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 
     @DeleteMapping("deleteBook/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        BookService.deleteBook(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully!");
     }
 }

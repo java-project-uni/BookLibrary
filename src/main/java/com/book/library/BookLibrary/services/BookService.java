@@ -10,16 +10,12 @@ public interface BookService {
 
     List<BookDTO> getAllBooks();
 
-    Optional<BookDTO> getBookById(Long id);
+    Optional<BookDTO> getBookByIsbn(String isbn);
 
     BookDTO createBook(BookDTO book);
 
-    static Book updateBook(Long id, Book book) {
-        return null;
-    }
+    Book updateBook(Long id, BookDTO book);
 
-    static void deleteBook(Long id) {
-
-    }
+    void deleteBook(Long id);
 
 }
