@@ -1,11 +1,15 @@
 package com.book.library.BookLibrary.DTOs;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 public class CategoryDTO {
 
     private Long id;
 
+    @NotBlank
     private String name;
 
     private List<BookDTO> books;

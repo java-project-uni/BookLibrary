@@ -1,14 +1,15 @@
 package com.book.library.BookLibrary.services;
 
-import com.book.library.BookLibrary.entities.Book;
-import com.book.library.BookLibrary.repositories.BookRepository;
+import com.book.library.BookLibrary.entities.*;
+import com.book.library.BookLibrary.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import com.book.library.BookLibrary.Mapper.Mapper;
-import com.book.library.BookLibrary.DTOs.BookDTO;
+import com.book.library.BookLibrary.DTOs.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +18,19 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
     @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private PublisherRepository publisherRepository;
+    @Autowired
     private Mapper mapper;
 
-    public void BookServiceImpl(BookRepository bookRepository, Mapper mapper) {
+    public void BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository, PublisherRepository publisherRepository, Mapper mapper) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
+        this.categoryRepository = categoryRepository;
+        this.publisherRepository = publisherRepository;
         this.mapper = mapper;
     }
 
@@ -29,53 +39,69 @@ public class BookServiceImpl implements BookService {
         return mapper.mapBooks(books);
     }
 
-    public Optional<BookDTO> getBookById(Long id) {
-        Optional<Book> book = bookRepository.findById(id);
+    public Optional<BookDTO> getBookByIsbn(String isbn) {
+        Optional<Book> book = bookRepository.findByIsbn(isbn);
         BookDTO bookDTO = mapper.modelMapper.map(book, BookDTO.class);
         return Optional.ofNullable(bookDTO);
     }
 
-    public BookDTO createBook(BookDTO book) {
-        Book bookToSave = mapper.modelMapper.map(book, Book.class);
+    public BookDTO createBook(BookDTO bookDTO) {
+        Book bookToSave = mapper.modelMapper.map(bookDTO, Book.class);
 
-       /* Author author = authorRepository.findByName(book.getAuthor().getName());
+        Author author = authorRepository.findByName(bookDTO.getAuthor());
         if (author == null) {
+            return null;
         }
-        bookToSave.getAuthors().add(author);
+        bookToSave.setAuthor(author);
 
-        Category category = categoryRepository.findByName(book.getCategory().getName());
+        Set<Category> category = categoryRepository.findByNameIn(bookDTO.getCategories());
         if (category == null) {
+            return null;
         }
-        bookToSave.getCategories().add(category);
+        bookToSave.getCategories().addAll(category);
 
-        Publisher publisher = publisherRepository.findByName(book.getPublisher().getName());
+        Set<Publisher> publisher = publisherRepository.findByNameIn(bookDTO.getPublishers());
         if (publisher == null) {
-
+            return null;
         }
-        bookToSave.getPublishers().add(publisher);*/
+        bookToSave.getPublishers().addAll(publisher);
 
         Book savedBook = bookRepository.save(bookToSave);
 
         return mapper.modelMapper.map(savedBook, BookDTO.class);
     }
 
-    Book updateBook(Long id, Book book) {
+    public Book updateBook(Long id, BookDTO bookDTO) {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        existingBook.setIsbn(book.getIsbn());
-        existingBook.setName(book.getName());
-        existingBook.setSerialName(book.getSerialName());
-        existingBook.setDescription(book.getDescription());
+        existingBook.setIsbn(bookDTO.getIsbn());
+        existingBook.setName(bookDTO.getName());
+        existingBook.setSerialName(bookDTO.getSerialName());
+        existingBook.setDescription(bookDTO.getDescription());
 
-        existingBook.setAuthors(book.getAuthors());
-        existingBook.setCategories(book.getCategories());
-        existingBook.setPublishers(book.getPublishers());
+        Author author = authorRepository.findByName(bookDTO.getAuthor());
+        if (author == null) {
+            return null;
+        }
+        existingBook.setAuthor(author);
+
+        Set<Category> category = categoryRepository.findByNameIn(bookDTO.getCategories());
+        if (category == null) {
+            return null;
+        }
+        existingBook.setCategories(category);
+
+        Set<Publisher> publisher = publisherRepository.findByNameIn(bookDTO.getPublishers());
+        if (publisher == null) {
+            return null;
+        }
+        existingBook.setPublishers(publisher);
 
         return bookRepository.save(existingBook);
     }
 
-    void deleteBook(Long id) throws ChangeSetPersister.NotFoundException {
+    public void deleteBook(Long id){
         var book = bookRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 

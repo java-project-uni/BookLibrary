@@ -1,6 +1,6 @@
 package com.book.library.BookLibrary.DTOs;
 
-import com.book.library.BookLibrary.entities.Book;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -8,12 +8,14 @@ public class PublisherDTO {
 
     private Long id;
 
+    @NotBlank
     private String name;
 
     private List<BookDTO> books;
 
     public PublisherDTO()
     {
+
     }
 
     public PublisherDTO(String name)
@@ -44,6 +46,5 @@ public class PublisherDTO {
     public void setBooks(List<BookDTO> books) {
         this.books = books;
     }
-
 
 }
