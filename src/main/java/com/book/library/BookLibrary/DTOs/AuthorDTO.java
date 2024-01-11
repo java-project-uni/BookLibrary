@@ -17,8 +17,7 @@ public class AuthorDTO {
 
     private List<BookDTO> books;
 
-    public AuthorDTO()
-    {
+    public AuthorDTO(){
     }
 
     public AuthorDTO(String name, String description) {
