@@ -8,11 +8,10 @@ public class CategoryDTO {
 
     private String name;
 
-    private List<CategoryDTO> categories;
+    private List<BookDTO> books;
 
     public CategoryDTO()
     {
-
     }
 
     public CategoryDTO(String name)
@@ -36,11 +35,11 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public List<CategoryDTO> getCategories() {
-        return categories;
+    public List<BookDTO> getBooks() {
+        return books;
     }
 
-    public void setCategories(List<CategoryDTO> categories) {
-        this.categories = categories;
+    public void setBooks(List<BookDTO> books) {
+        this.books = books;
     }
 }

@@ -1,5 +1,7 @@
 package com.book.library.BookLibrary.DTOs;
 
+import com.book.library.BookLibrary.entities.Book;
+
 import java.util.List;
 
 public class PublisherDTO {
@@ -8,11 +10,10 @@ public class PublisherDTO {
 
     private String name;
 
-    private List<PublisherDTO> publishers;
+    private List<BookDTO> books;
 
     public PublisherDTO()
     {
-
     }
 
     public PublisherDTO(String name)
@@ -36,12 +37,12 @@ public class PublisherDTO {
         this.name = name;
     }
 
-    public List<PublisherDTO> getPublishers() {
-        return publishers;
+    public List<BookDTO> getBooks() {
+        return books;
     }
 
-    public void setPublishers(List<PublisherDTO> publishers) {
-        this.publishers = publishers;
+    public void setBooks(List<BookDTO> books) {
+        this.books = books;
     }
 
 

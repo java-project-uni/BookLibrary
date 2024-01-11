@@ -2,7 +2,7 @@ package com.book.library.BookLibrary.controllers;
 
 import com.book.library.BookLibrary.entities.Author;
 import com.book.library.BookLibrary.services.AuthorService;
-import com.book.library.BookLibrary.DTOs.AuthorDTO;
+import com.book.library.BookLibrary.DTOs.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,20 +30,20 @@ public class AuthorController {
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }
 
-    @GetMapping("getBook/{id}")
+    @GetMapping("getAuthor/{id}")
     public ResponseEntity<Optional<AuthorDTO>> getAuthorById(@PathVariable Long id) {
         Optional<AuthorDTO> author = authorService.getAuthorById(id);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PostMapping("/createAuthor")
-    public ResponseEntity<AuthorDTO> createAuthor(AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> createAuthor(AuthorInputDTO authorDTO) {
         AuthorDTO createdAuthor = authorService.createAuthor(authorDTO);
         return new ResponseEntity<>(createdAuthor, HttpStatus.CREATED);
     }
 
     @PutMapping("updateAuthor/{id}")
-    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable Long id, @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable Long id, @RequestBody AuthorInputDTO authorDTO) {
         AuthorDTO updatedAuthor = authorService.updateAuthor(id, authorDTO);
         if (updatedAuthor != null) {
             return new ResponseEntity<>(updatedAuthor, HttpStatus.OK);

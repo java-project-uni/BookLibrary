@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private Mapper mapper;
 
-    public void setBookRepository(BookRepository bookRepository, Mapper mapper) {
+    public void BookServiceImpl(BookRepository bookRepository, Mapper mapper) {
         this.bookRepository = bookRepository;
         this.mapper = mapper;
     }

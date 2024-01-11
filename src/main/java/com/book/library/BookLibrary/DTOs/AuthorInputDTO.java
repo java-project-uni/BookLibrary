@@ -1,32 +1,17 @@
 package com.book.library.BookLibrary.DTOs;
 
-import java.util.List;
-
-public class AuthorDTO {
-
-    private Long id;
+public class AuthorInputDTO {
 
     private String name;
 
     private String description;
 
-    private List<BookDTO> books;
-
-    public AuthorDTO()
-    {
+    public AuthorInputDTO() {
     }
 
-    public AuthorDTO(String name, String description) {
+    public AuthorInputDTO(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -43,13 +28,5 @@ public class AuthorDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<BookDTO> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<BookDTO> books) {
-        this.books = books;
     }
 }
