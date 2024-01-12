@@ -11,4 +11,5 @@ public class PasswordEncryptor {
     public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
         return BCrypt.checkpw(plainTextPassword, hashedPassword);
     }
+
 }
