@@ -17,9 +17,10 @@ import java.util.stream.Collectors;
 @Component
 public class Mapper {
 
-    public final ModelMapper modelMapper;
+    public final CustomModelMapper modelMapper;
 
-    public Mapper(ModelMapper modelMapper) {
+
+    public Mapper(CustomModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

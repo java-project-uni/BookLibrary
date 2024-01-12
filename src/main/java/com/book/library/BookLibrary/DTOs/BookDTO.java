@@ -3,6 +3,7 @@ package com.book.library.BookLibrary.DTOs;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.List;
 import java.util.Set;
 
 public class BookDTO {
@@ -22,15 +23,15 @@ public class BookDTO {
     private String author;
 
     @NotEmpty
-    private Set<String> categories;
+    private List<String> categories;
 
     @NotEmpty
-    private Set<String> publishers;
+    private List<String> publishers;
 
     public BookDTO() {
     }
 
-    public BookDTO(String isbn, String name, String serialName, String description, String authorName, Set<String> categoryName, Set<String> publisherName){
+    public BookDTO(String isbn, String name, String serialName, String description, String authorName, List<String> categoryName, List<String> publisherName){
         this.isbn = isbn;
         this.name = name;
         this.serialName = serialName;
@@ -60,11 +61,11 @@ public class BookDTO {
 
     public void setAuthor(String author) { this.author = author; }
 
-    public Set<String> getCategories() { return categories; }
+    public List<String> getCategories() { return categories; }
 
-    public void setCategories(Set<String> category) { this.categories = category; }
+    public void setCategories(List<String> category) { this.categories = category; }
 
-    public Set<String> getPublishers() { return publishers; }
+    public List<String> getPublishers() { return publishers; }
 
-    public void setPublishers(Set<String> publisher) { this.publishers = publisher; }
+    public void setPublishers(List<String> publisher) { this.publishers = publisher; }
 }
