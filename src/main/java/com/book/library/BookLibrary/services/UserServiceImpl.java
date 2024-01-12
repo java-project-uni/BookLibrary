@@ -23,7 +23,7 @@ public class UserServiceImpl implements  UserService{
     @Autowired
     private Mapper mapper;
 
-    public void UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, Mapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, Mapper mapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.mapper = mapper;
