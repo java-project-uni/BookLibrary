@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private Mapper mapper;
 
-    public void BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository, PublisherRepository publisherRepository, Mapper mapper) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository, PublisherRepository publisherRepository, Mapper mapper) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.categoryRepository = categoryRepository;
@@ -113,6 +113,26 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(EntityNotFoundException::new);
 
         bookRepository.deleteById(book.getId());
+    }
+
+    public List<BookDTO> getByName(String bookName) {
+        List<Book> books = bookRepository.findByName(bookName);
+        return mapper.mapBooks(books);
+    }
+
+    public List<BookDTO> getBooksByAuthorName(String authorName) {
+        List<Book> books = bookRepository.findBooksByAuthorName(authorName);
+        return mapper.mapBooks(books);
+    }
+
+    public List<BookDTO> getBooksByCategory(String categoryName) {
+        List<Book> books = bookRepository.findBooksByCategory(categoryName);
+        return mapper.mapBooks(books);
+    }
+
+    public List<BookDTO> getBooksByPublisher(String publisherName) {
+        List<Book> books = bookRepository.findBooksByPublisher(publisherName);
+        return mapper.mapBooks(books);
     }
 
 }
