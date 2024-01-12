@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.book.library.BookLibrary.Mapper.Mapper;
 import com.book.library.BookLibrary.DTOs.*;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,19 +50,22 @@ public class BookServiceImpl implements BookService {
     public BookDTO createBook(BookDTO bookDTO) {
         Book bookToSave = mapper.modelMapper.map(bookDTO, Book.class);
 
+        bookToSave.setCategories(new HashSet<Category>());
+        bookToSave.setPublishers(new HashSet<Publisher>());
+
         Author author = authorRepository.findByName(bookDTO.getAuthor());
         if (author == null) {
             return null;
         }
         bookToSave.setAuthor(author);
 
-        Set<Category> category = categoryRepository.findByNameIn(bookDTO.getCategories());
+        Set<Category> category = categoryRepository.findByNameIn(new HashSet<>(bookDTO.getCategories()));
         if (category == null) {
             return null;
         }
         bookToSave.getCategories().addAll(category);
 
-        Set<Publisher> publisher = publisherRepository.findByNameIn(bookDTO.getPublishers());
+        Set<Publisher> publisher = publisherRepository.findByNameIn(new HashSet<>(bookDTO.getPublishers()));
         if (publisher == null) {
             return null;
         }
@@ -68,7 +73,9 @@ public class BookServiceImpl implements BookService {
 
         Book savedBook = bookRepository.save(bookToSave);
 
-        return mapper.modelMapper.map(savedBook, BookDTO.class);
+        BookDTO bookResponse = mapper.modelMapper.map(savedBook, BookDTO.class);
+
+        return bookResponse;
     }
 
     public Book updateBook(Long id, BookDTO bookDTO) {
@@ -86,13 +93,13 @@ public class BookServiceImpl implements BookService {
         }
         existingBook.setAuthor(author);
 
-        Set<Category> category = categoryRepository.findByNameIn(bookDTO.getCategories());
+        Set<Category> category = categoryRepository.findByNameIn(new HashSet<>(bookDTO.getCategories()));
         if (category == null) {
             return null;
         }
         existingBook.setCategories(category);
 
-        Set<Publisher> publisher = publisherRepository.findByNameIn(bookDTO.getPublishers());
+        Set<Publisher> publisher = publisherRepository.findByNameIn(new HashSet<>(bookDTO.getPublishers()));
         if (publisher == null) {
             return null;
         }
