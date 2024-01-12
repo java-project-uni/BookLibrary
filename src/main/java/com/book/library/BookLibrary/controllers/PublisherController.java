@@ -28,32 +28,32 @@ public class PublisherController {
         return new ResponseEntity<>(publishers, HttpStatus.OK);
     }
 
-    @GetMapping("/byBookName")
-    public ResponseEntity<List<PublisherDTO>> getAllPublishersByBookName(@RequestParam String bookName) {
+    @GetMapping("/byBookName/{bookName}")
+    public ResponseEntity<List<PublisherDTO>> getPublishersByBookName(@PathVariable String bookName) {
         List<PublisherDTO> publishers = publisherService.getAllPublishersByBookName(bookName);
         return new ResponseEntity<>(publishers, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getPublisher/{id}")
     public ResponseEntity<PublisherDTO> getPublisherById(@PathVariable Long id) {
         Optional<PublisherDTO> publisher = publisherService.getPublisherById(id);
         return publisher.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @PostMapping("/createPublisher")
     public ResponseEntity<PublisherDTO> createPublisher(@RequestBody PublisherInputDTO publisherDTO) {
         PublisherDTO createdPublisher = publisherService.createPublisher(publisherDTO);
         return new ResponseEntity<>(createdPublisher, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updatePublisher/{id}")
     public ResponseEntity<PublisherDTO> updatePublisher(@PathVariable Long id, @RequestBody PublisherInputDTO publisherDTO) {
         PublisherDTO updatedPublisher = publisherService.updatePublisher(id, publisherDTO);
         return new ResponseEntity<>(updatedPublisher, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletePublisher/{id}")
     public ResponseEntity<Void> deletePublisher(@PathVariable Long id) {
         publisherService.deletePublisher(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

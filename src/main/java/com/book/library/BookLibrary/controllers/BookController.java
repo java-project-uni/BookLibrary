@@ -31,8 +31,8 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @GetMapping("getBook/{isbn}")
-    public ResponseEntity getBookByIsbn(@PathVariable String isbn) {
+    @GetMapping("/getBook/{isbn}")
+    public ResponseEntity getByIsbn(@PathVariable String isbn) {
         Optional<BookDTO> book = bookService.getBookByIsbn(isbn);
         if (book.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There  is no book with ISBN: " + isbn);
@@ -49,7 +49,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
-    @PutMapping("updateBook/{id}")
+    @PutMapping("/updateBook/{id}")
     public ResponseEntity updateBook(@PathVariable Long id, @RequestBody BookDTO updatedBook) {
         Book updated = bookService.updateBook(id, updatedBook);
         if (updated == null) {
@@ -58,9 +58,46 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 
-    @DeleteMapping("deleteBook/{id}")
+    @DeleteMapping("/deleteBook/{id}")
     public ResponseEntity deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully!");
     }
+
+    @GetMapping("/getByName/{bookName}")
+    public ResponseEntity getByName(@PathVariable String bookName) {
+        List<BookDTO> books = bookService.getByName(bookName);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There is no book with this name.");
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(books);
+    }
+
+    @GetMapping("/getByAuthorName/{authorName}")
+    public ResponseEntity getByAuthor(@PathVariable String authorName) {
+        List<BookDTO> books = bookService.getBooksByAuthorName(authorName);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("This author does not have books.");
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(books);
+    }
+
+    @GetMapping("/getByCategory/{categoryName}")
+    public ResponseEntity getByCategory(@PathVariable String categoryName) {
+        List<BookDTO> books = bookService.getBooksByCategory(categoryName);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There are no books in this category.");
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(books);
+    }
+
+    @GetMapping("/getByPublisher/{publisherName}")
+    public ResponseEntity getByPublisher(@PathVariable String publisherName) {
+        List<BookDTO> books = bookService.getBooksByPublisher(publisherName);
+        if (books.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There are no books by this publisher.");
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(books);
+    }
+
 }
