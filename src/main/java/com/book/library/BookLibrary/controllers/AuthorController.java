@@ -31,9 +31,10 @@ public class AuthorController {
     }
 
     @GetMapping("getAuthor/{id}")
-    public ResponseEntity<Optional<AuthorDTO>> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable Long id) {
         Optional<AuthorDTO> author = authorService.getAuthorById(id);
-        return new ResponseEntity<>(author, HttpStatus.OK);
+        return author.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/createAuthor")
