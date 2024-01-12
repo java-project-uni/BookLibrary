@@ -18,7 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private Mapper mapper;
 
-    public void AuthorServiceImpl(AuthorRepository authorRepository, Mapper mapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, Mapper mapper) {
         this.authorRepository = authorRepository;
         this.mapper = mapper;
     }
