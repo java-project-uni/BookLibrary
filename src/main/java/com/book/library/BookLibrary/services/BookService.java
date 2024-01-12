@@ -18,12 +18,4 @@ public interface BookService {
 
     void deleteBook(Long id);
 
-    List<BookDTO> getByName(String bookName);
-
-    List<BookDTO> getBooksByAuthorName(String authorName);
-
-    List<BookDTO> getBooksByCategory(String categoryName);
-
-    List<BookDTO> getBooksByPublisher(String publisherName);
-
 }

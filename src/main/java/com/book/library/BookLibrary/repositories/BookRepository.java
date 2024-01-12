@@ -2,28 +2,16 @@ package com.book.library.BookLibrary.repositories;
 
 import com.book.library.BookLibrary.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+    // Find a book by its name
+    Book findByName(String name);
 
-    List<Book> findByName(String name);
-
+    // Find a book by its ISBN
     Optional<Book> findByIsbn(String isbn);
-
-    @Query("SELECT b FROM Book b WHERE b.author.name = :authorName")
-    List<Book> findBooksByAuthorName(@Param("authorName") String authorName);
-
-    @Query("SELECT b FROM Book b WHERE b.categories.name = :categoryName")
-    List<Book> findBooksByCategory(@Param("categoryName") String categoryName);
-
-    @Query("SELECT b FROM Book b WHERE b.publishers.name = :publisherName")
-    List<Book> findBooksByPublisher(@Param("publisherName") String publisherName);
-
 }
 

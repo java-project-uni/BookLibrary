@@ -5,6 +5,7 @@ import com.book.library.BookLibrary.services.BookService;
 import com.book.library.BookLibrary.DTOs.BookDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,41 +63,4 @@ public class BookController {
         bookService.deleteBook(id);
         return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully!");
     }
-
-    @GetMapping
-    public ResponseEntity getByName(@PathVariable String bookName) {
-        List<BookDTO> books = bookService.getByName(bookName);
-        if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There is no book with this name.");
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(books);
-    }
-
-    @GetMapping
-    public ResponseEntity getAllBooksByAuthor(@PathVariable String authorName) {
-        List<BookDTO> books = bookService.getBooksByAuthorName(authorName);
-        if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("This author does not have books.");
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(books);
-    }
-
-    @GetMapping
-    public ResponseEntity getAllBooksByCategory(@PathVariable String categoryName) {
-        List<BookDTO> books = bookService.getBooksByCategory(categoryName);
-        if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There are no books in this category.");
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(books);
-    }
-
-    @GetMapping
-    public ResponseEntity getAllBooksByPublisher(@PathVariable String publisherName) {
-        List<BookDTO> books = bookService.getBooksByPublisher(publisherName);
-        if (books.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There are no books by this publisher.");
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(books);
-    }
-
 }

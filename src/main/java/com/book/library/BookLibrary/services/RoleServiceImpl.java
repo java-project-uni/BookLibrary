@@ -10,7 +10,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleRepository roleRepository) {
+    public void RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
     public Role findByName(String name) {
